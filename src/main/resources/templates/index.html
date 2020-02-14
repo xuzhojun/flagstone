@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" th:href="@{/favicon.ico}">
+    <link rel="stylesheet" href="" th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.css}">
+    <link rel="stylesheet" href="" th:href="@{/css/index.css}">
+    <link rel="stylesheet" href="" th:href="@{/css/reveal.css}">
+    <script src="https://code.jquery.com/jquery-3.4.1.js" th:src="@{/webjars/jquery/3.4.1/jquery.js}"></script>
+    <title>任务查看</title>
+</head>
+<body class="container">
+<ul class="pager">
+<li class="operator">
+    <h4 style="display: inline-block; margin-right: 10px;">我是</h4>
+    <h3 id="operator-name" style="display: inline-block;margin-right: 10px;" text="" th:text="${operatorName}">徐中军</h3>
+    <a style="color: #63676b;" onclick="removeName()">
+        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+    </a>
+</li>
+<li class="queryType">
+<div class="btn-group" role="group" style="position:left">
+    <button type="button" class="btn btn-default" onclick="queryMyTask()">只看我的任务</button>
+    <button type="button" class="btn btn-default" onclick="queryAllTask()">看所有的任务</button>
+</div>
+</li>
+</ul>
+
+<div id="names"></div>
+
+<div id="myModal" class="reveal-modal">
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">编辑任务</div>
+        <div class="panel-body">
+            <form method="post" action="/taskModify">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">id#</span>
+                    <input type="text" class="form-control" id="functionID" name="functionID" readonly="readonly" aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon9">操作人</span>
+                    <input type="text" class="form-control" id="operator" name="operator" readonly="readonly" aria-describedby="basic-addon9">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon2">功能名</span>
+                    <input type="text" class="form-control" id="function" name="function" aria-describedby="basic-addon2">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon3">对应类</span>
+                    <input type="text" class="form-control" id="className" name="className" aria-describedby="basic-addon3">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon4">负责人</span>
+                    <input type="text" class="form-control" id="personInCharge" name="personInCharge" aria-describedby="basic-addon4">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon5">里程碑</span>
+                    <input type="text" class="form-control" id="mileStone" name="mileStone" aria-describedby="basic-addon5">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">完成进度</span>
+                    <input type="text" class="form-control" id="rateOfProcess" name="rateOfProcess" aria-label="Amount (to the nearest dollar)">
+                    <span class="input-group-addon">%</span>
+                </div>
+                <button type="submit" class="btn btn-default">提交</button>
+            </form>
+        </div>
+    </div>
+    <a class="close-reveal-modal">×</a>
+</div>
+
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>功能名</th>
+        <th>对应类名</th>
+        <th>负责人</th>
+        <th>里程碑</th>
+        <th>完成进度(%)</th>
+    </tr>
+    </thead>
+    <tbody id="taskList" th:if="${tasks} != null">
+    <tr class="taskRow" data-reveal-id="myModal" data-animation="fade" th:each="task, iterStat : ${tasks}">
+        <th th:text="${task.id}" scope="row">[[1]]</th>
+        <td th:text="${task.function}" class="taskItem">[[function]]</td>
+        <td th:text="${task.className}" class="taskItem">[[className]]</td>
+        <td th:text="${task.personInCharge}" class="taskItem">[[personInCharge]]</td>
+        <td th:text="${task.mileStone}" class="taskItem">[[milestone]]</td>
+        <td th:text="${task.rateOfProcess}" class="taskItem">[[rateOfProcess]]</td>
+<!--        <td><input type="text" th:value="${task.rateOfProcess}"/></td>-->
+    </tr>
+    </tbody>
+</table>
+</body>
+    <script src="" th:src="@{/js/jquery.reveal.js}"></script>
+    <script type="text/javascript">
+        var names = new Set();
+    
+        $(document).ready(function() {
+            clearForm();
+            n = $("#taskList tr").find("td:eq(2)");
+            $(n).each(function(index,item){names.add(item.textContent)});
+            if ($("#operator-name")[0].textContent == null || $("#operator-name")[0].textContent == "") {listNames();}
+            $("#names .btn").click(nameBtnClick);
+        });
+
+        function makeNameBtn(item) {
+            return '<button type="button" class="btn btn-default" style="margin-right: 10px;margin-top: 5px;" onclick="nameBtnClick(this)">' + item + '</button>'
+        }
+
+        function emptyNames() {
+            $("#names").empty();
+        }
+
+        function listNames() {
+            emptyNames();
+            names.forEach(function(item,index){
+                $("#names").append(makeNameBtn(item));
+            });
+        }
+
+        function nameBtnClick(item) {
+            $("#operator-name").text(item.textContent);
+            $("#names").empty();
+        }
+
+        function taskItemClick() {
+            console.log(this);
+            $(this).css('color', "red");
+        }
+
+        function removeName() {
+            $("#operator-name").empty();
+            listNames();
+        }
+
+        function queryMyTask() {
+            if ($("#operator-name")[0].textContent == null || $("#operator-name")[0].textContent == "") {
+                alert("请选择姓名");
+            } else {
+                loc = "/myTask?name=" + $("#operator-name")[0].textContent;
+                window.location.href=loc;
+            }
+        }
+
+        function queryAllTask() {
+            var href="/who?name=" + $("#operator-name")[0].textContent;
+            window.location.href=href;
+        }
+
+        function clearForm() {
+            $("form #functionID").val("");
+            $("form #operator").val("");
+            $("form #function").val("");
+            $("form #className").val("");
+            $("form #personInCharge").val("");
+            $("form #mileStone").val("");
+            $("form #rateOfProcess").val("");
+        }
+
+        function setForm(component){
+            var tid = $(component).find("th:eq(0)")[0].textContent;
+            var func = $(component).find("td:eq(0)")[0].textContent;
+            var className = $(component).find("td:eq(1)")[0].textContent;
+            var personInCharge = $(component).find("td:eq(2)")[0].textContent;
+            var mileStone = $(component).find("td:eq(3)")[0].textContent;
+            var rateOfProcess = $(component).find("td:eq(4)")[0].textContent;
+            var operator = $("#operator-name")[0].textContent;
+
+            $("form #functionID").val(tid);
+            $("form #operator").val(operator);
+            $("form #function").val(func);
+            $("form #className").val(className);
+            $("form #personInCharge").val(personInCharge);
+            $("form #mileStone").val(mileStone);
+            $("form #rateOfProcess").val(rateOfProcess);
+        }
+    </script>
+</html>

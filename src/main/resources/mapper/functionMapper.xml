@@ -1,0 +1,37 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.FunctionMapper">
+
+    <resultMap id="functionMap" type="entity.Function">
+        <id property="id" column="f_id" javaType="int" />
+        <result property="function" column="f_func" javaType="java.lang.String"></result>
+        <result property="className" column="f_class_name" javaType="java.lang.String"></result>
+        <result property="personInCharge" column="f_person_in_charge" javaType="java.lang.String"></result>
+        <result property="mileStone" column="f_milestone" javaType="java.lang.String"></result>
+        <result property="rateOfProcess" column="f_rate_of_process" javaType="int"></result>
+    </resultMap>
+
+    <insert id="add" parameterType="entity.Function" useGeneratedKeys="true" keyProperty="id">
+        insert into t_functions(f_func, f_class_name, f_person_in_charge, f_milestone, f_rate_of_process)
+        values(#{function}, #{className}, #{personInCharge}, #{mileStone}, #{rateOfProcess});
+    </insert>
+    
+    <update id="updateById" parameterType="entity.Function">
+        update t_functions set f_func=#{function}, f_class_name=#{className}, f_person_in_charge=#{personInCharge}, f_milestone=#{mileStone}, f_rate_of_process=#{rateOfProcess}
+        where f_id=#{id}
+    </update>
+
+    <select id="queryAllFunction" resultMap="functionMap">
+        select * from t_functions;
+    </select>
+
+    <select id="searchByPersonInCharge" resultMap="functionMap">
+        select * from t_functions where f_person_in_charge=#{personInCharge}
+    </select>
+
+    <select id="searchByID" resultMap="functionMap">
+        select * from t_functions where f_id=#{id}
+    </select>
+
+</mapper>    

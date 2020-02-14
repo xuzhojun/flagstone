@@ -1,0 +1,26 @@
+1. sqlite3
+drop table t_functions;
+create table t_functions (
+    f_id  integer primary key,
+    f_func text unique,
+    f_class_name text unique,
+    f_person_in_charge text,
+    f_milestone text,
+    f_rate_of_process integer
+);
+create index index_person_in_charge on t_functions(f_person_in_charge);
+
+drop table t_operate_flow;
+create table t_operate_flow (
+    f_id integer primary key,
+    f_func_id integer,
+    f_operator text,
+    f_operate_type text,
+    f_old_status text,
+    f_new_status text,
+    f_time text,
+    f_ip text
+);
+
+
+2.

@@ -1,0 +1,10 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.OperateFlowMapper">
+
+    <insert id="add" parameterType="entity.OperateFlow" useGeneratedKeys="true" keyProperty="id">
+        insert into t_operate_flow(f_func_id, f_operator, f_operate_type, f_old_status, f_new_status, f_time, f_ip)
+        values(#{functionID}, #{operator}, #{operateType}, #{oldStatus}, #{newStatus}, #{time}, #{ip});
+    </insert>
+</mapper>
