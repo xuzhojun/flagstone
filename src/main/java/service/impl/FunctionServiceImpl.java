@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.FunctionService;
 import vo.NewTask;
+import vo.TaskOverView;
 
 import java.util.List;
 
@@ -55,4 +56,11 @@ public class FunctionServiceImpl implements FunctionService {
     public List<Function> queryByName(String name) {
         return functionMapper.searchByPersonInCharge(name);
     }
+
+    @Override
+    public TaskOverView queryTaskOverView() {
+        return null;
+    }
+
+
 }

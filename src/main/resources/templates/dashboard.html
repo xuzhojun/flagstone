@@ -6,20 +6,19 @@
     <link rel="stylesheet" href="" th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.css}">
     <link rel="stylesheet" href="" th:href="@{/css/index.css}">
     <link rel="stylesheet" href="" th:href="@{/css/reveal.css}">
-<!--    <script src="https://code.jquery.com/jquery-3.4.1.js" th:src="@{/webjars/jquery/3.4.1/jquery.js}"></script>-->
     <title>仪表盘</title>
 </head>
 <body>
     <div id="main" style="width: 600px;height:400px;"></div>
 </body>
+<script src="https://code.jquery.com/jquery-3.4.1.js" th:src="@{/webjars/jquery/3.4.1/jquery.js}"></script>
     <script src="D:\IdeaProjects\flagstone\src\main\resources\static\js\echarts.min.js" th:src="@{/js/echarts.min.js}"></script>
 <script type="text/javascript">
-    // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('main'));
 
-	option = {
+    var myChart = echarts.init(document.getElementById('main'));
+    var option = {
 		title: {
-			text: '个人任务情况'
+			text: '个人任务情况000'
 		},
 		tooltip: {
 			trigger: 'axis',
@@ -39,7 +38,7 @@
 		xAxis: [
 			{
 				type: 'category',
-				data: ['刘海涛', '张勤', '徐中军', '盛裕博', '叶敏', '赵英彬', '冯子龙']
+				data: []
 			}
 		],
 		yAxis: [
@@ -54,7 +53,7 @@
 				label: {
 					show: true,
 				},
-				data: [120, 132, 101, 134, 90, 230, 210],
+				data: [],
 
 			},
 			{
@@ -63,28 +62,71 @@
 				label: {
 					show: true,
 				},
-				data: [220, 182, 191, 234, 290, 330, 310]
+				data: []
 			},
 			{
 				name: '总量',
 				type: 'line',
-				data: [340, 314, 292, 368, 380, 560, 520],
+				data: [],
 				markPoint: {
-					data: [
-						{name: '总量', value: 340, xAxis: 0, yAxis: 340},
-						{name: '总量', value: 314, xAxis: 1, yAxis: 314},
-						{name: '总量', value: 292, xAxis: 2, yAxis: 292},
-						{name: '总量', value: 368, xAxis: 3, yAxis: 368},
-						{name: '总量', value: 380, xAxis: 4, yAxis: 380},
-						{name: '总量', value: 560, xAxis: 5, yAxis: 560},
-						{name: '总量', value: 520, xAxis: 6, yAxis: 520}
-					]
+					data: []
 				}
 			}
 		]
 	};
-    // 使用刚指定的配置项和数据显示图表。
-    myChart.setOption(option);
+	myChart.setOption(option);
+    $(document).ready(function() {
+        $.ajax({
+            url: "/dashboard/overview",
+            dataType: "json",
+            type: "GET",
+            success: function(rsp, status) {
+                var a = [];
+                $.each(rsp['numberOfTasks'], function(index, item) {
+                    a[index] = {name: '总量', value: item, xAxis: index, yAxis: item};
+                });
+                myChart.setOption({
+                    xAxis: [{
+                            type: 'category',
+                            data: rsp['chargers']
+                        }
+                    ],
+                    yAxis: [{
+                        type: 'value'
+                    }],
+                    series: [
+                        {
+                            name: '未完成',
+                            type: 'bar',
+                            label: {
+                                show: true,
+                            },
+                            data: rsp['numberOfUnfinished'],
+                        },
+                        {
+                            name: '已完成',
+                            type: 'bar',
+                            label: {
+                                show: true,
+                            },
+                            data: rsp['numberOfFinished'],
+                        },
+                        {
+                            name: '总量',
+                            type: 'line',
+                            data: rsp['numberOfTasks'],
+                            markPoint: {
+                                data: a
+                            }
+                        }
+                    ]
+                })
+            },
+            error: function() {
+                alert("error");
+            }
+        });
+    });
 </script>
 
 </html>
