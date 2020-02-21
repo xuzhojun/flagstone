@@ -1,5 +1,6 @@
 package service.impl;
 
+import com.alibaba.fastjson.JSON;
 import comm.ConstVal;
 import comm.SomeUtils;
 import dao.FunctionMapper;
@@ -26,7 +27,7 @@ public class TaskModifyServiceImpl implements TaskModifyService {
             Function newFunction = new Function(newTask.getFunctionID(), newTask.getFunction(), newTask.getClassName(), newTask.getPersonInCharge(), newTask.getMileStone(), newTask.getRateOfProcess());
             functionMapper.updateById(newFunction);
 
-            OperateFlow operateFlow = new OperateFlow(newTask.getFunctionID(), newTask.getOperator(), ConstVal.OPERATE_TYPE_MODIFY, oldFunction.toString(), newFunction.toString(), SomeUtils.getNowTime(), "");
+            OperateFlow operateFlow = new OperateFlow(newTask.getFunctionID(), newTask.getOperator(), ConstVal.OPERATE_TYPE_MODIFY, JSON.toJSONString(oldFunction), JSON.toJSONString(newFunction), SomeUtils.getNowTime(), "");
 
             operateFlowMapper.add(operateFlow);
 

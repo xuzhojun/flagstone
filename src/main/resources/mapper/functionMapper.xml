@@ -34,4 +34,8 @@
         select * from t_functions where f_id=#{id}
     </select>
 
+    <select id="searchAllChargers" resultType="String">
+        select distinct(f_person_in_charge) as f_person_in_charge from t_functions;
+    </select>
+
 </mapper>    

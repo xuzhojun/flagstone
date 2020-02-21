@@ -12,7 +12,9 @@ import service.FunctionService;
 import vo.NewTask;
 import vo.TaskOverView;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class FunctionServiceImpl implements FunctionService {
@@ -59,7 +61,47 @@ public class FunctionServiceImpl implements FunctionService {
 
     @Override
     public TaskOverView queryTaskOverView() {
-        return null;
+
+        class NumberOfTasks {
+            int numberOfTasks;
+            int numberOfUnfinished;
+            int numberOfFinished;
+        }
+
+        List<Function> functions = queryAll();
+
+        HashMap<String, NumberOfTasks> hm = new HashMap<>(32);
+
+        for (Function function: functions) {
+            if (hm.containsKey(function.getPersonInCharge())) {
+                NumberOfTasks n = hm.get(function.getPersonInCharge());
+                n.numberOfTasks++;
+                if (function.getRateOfProcess() == 100) {
+                    n.numberOfFinished++;
+                } else {
+                    n.numberOfUnfinished++;
+                }
+            } else {
+                NumberOfTasks n = new NumberOfTasks();
+                n.numberOfTasks++;
+                if (function.getRateOfProcess() == 100) {
+                    n.numberOfFinished++;
+                } else {
+                    n.numberOfUnfinished++;
+                }
+                hm.put(function.getPersonInCharge(), n);
+            }
+        }
+
+        TaskOverView tov = new TaskOverView();
+        for (Map.Entry<String, NumberOfTasks> entry : hm.entrySet()) {
+            tov.getChargers().add(entry.getKey());
+            tov.getNumberOfTasks().add(entry.getValue().numberOfTasks);
+            tov.getNumberOfFinished().add(entry.getValue().numberOfFinished);
+            tov.getNumberOfUnfinished().add(entry.getValue().numberOfUnfinished);
+        }
+
+        return tov;
     }
 
 

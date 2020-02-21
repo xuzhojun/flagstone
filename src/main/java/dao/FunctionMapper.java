@@ -12,6 +12,7 @@ public interface FunctionMapper {
     void delete(Function f);
     Function searchByID(int id);
     List<Function> queryAllFunction();
+    List<String> searchAllChargers();
     List<Function> searchByPersonInCharge(String personInCharge);
     int updateById(Function f);
 }

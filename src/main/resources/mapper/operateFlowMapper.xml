@@ -3,8 +3,24 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dao.OperateFlowMapper">
 
+    <resultMap id="operateFlowMap" type="entity.OperateFlow">
+        <id property="id" column="f_id" javaType="int" />
+        <result property="functionID" column="f_func_id" javaType="int" />
+        <result property="operator" column="f_operator" javaType="String" />
+        <result property="operateType" column="f_operate_type" javaType="int" />
+        <result property="oldStatus" column="f_old_status" javaType="String" />
+        <result property="newStatus" column="f_new_status" javaType="String" />
+        <result property="time" column="f_time" javaType="String" />
+        <result property="ip" column="f_ip" javaType="String" />
+    </resultMap>
+
+    <select id="queryAll" resultMap="operateFlowMap">
+        select * from t_operate_flow order by f_time asc;
+    </select>
+
     <insert id="add" parameterType="entity.OperateFlow" useGeneratedKeys="true" keyProperty="id">
-        insert into t_operate_flow(f_func_id, f_operator, f_operate_type, f_old_status, f_new_status, f_time, f_ip)
-        values(#{functionID}, #{operator}, #{operateType}, #{oldStatus}, #{newStatus}, #{time}, #{ip});
+            insert into t_operate_flow(f_func_id, f_operator, f_operate_type, f_old_status, f_new_status, f_time, f_ip)
+            values(#{functionID}, #{operator}, #{operateType}, #{oldStatus}, #{newStatus}, #{time}, #{ip});
     </insert>
+
 </mapper>

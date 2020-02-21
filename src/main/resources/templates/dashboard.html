@@ -9,17 +9,15 @@
     <title>仪表盘</title>
 </head>
 <body>
-    <div id="main" style="width: 600px;height:400px;"></div>
+    <div id="personOverview" style="width: 800px;height:400px; margin: 0 auto;"></div>
+    <div id="everyDayFinished" style="width: 800px;height:400px; margin: 0 auto;"></div>
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.js" th:src="@{/webjars/jquery/3.4.1/jquery.js}"></script>
-    <script src="D:\IdeaProjects\flagstone\src\main\resources\static\js\echarts.min.js" th:src="@{/js/echarts.min.js}"></script>
+<script src="D:\IdeaProjects\flagstone\src\main\resources\static\js\echarts.min.js" th:src="@{/js/echarts.min.js}"></script>
 <script type="text/javascript">
-
-    var myChart = echarts.init(document.getElementById('main'));
-    var option = {
-		title: {
-			text: '个人任务情况000'
-		},
+    var personOverviewChart = echarts.init(document.getElementById('personOverview'));
+	personOverviewChart.setOption({
+		title: { text: '个人任务情况' },
 		tooltip: {
 			trigger: 'axis',
 			axisPointer: {            // 坐标轴指示器，坐标轴触发有效
@@ -41,43 +39,78 @@
 				data: []
 			}
 		],
-		yAxis: [
-			{
-				type: 'value'
-			}
-		],
+		yAxis: [{ type: 'value' }],
 		series: [
 			{
 				name: '未完成',
 				type: 'bar',
-				label: {
-					show: true,
-				},
+				label: { show: true, },
 				data: [],
 
 			},
 			{
 				name: '已完成',
 				type: 'bar',
-				label: {
-					show: true,
-				},
+				label: {s how: true, },
 				data: []
 			},
 			{
 				name: '总量',
 				type: 'line',
 				data: [],
-				markPoint: {
-					data: []
-				}
+				markPoint: { data: [] }
 			}
 		]
-	};
-	myChart.setOption(option);
+	});
+
+    var everyDayFinishedChart = echarts.init(document.getElementById('everyDayFinished'));
+    everyDayFinishedChart.setOption({
+        title: {text: '每日累计完成'},
+        legend: {}, 
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                label: { backgroundColor: '#6a7985' }
+            }
+        },
+        dataset: { source: [] },
+        xAxis: { type: 'category', },
+        yAxis: { type: 'value' },
+        toolbox: {
+            feature: {
+                dataZoom: {
+                    yAxisIndex: 'none'
+                },
+                restore: {},
+                saveAsImage: {}
+            }
+        },
+        dataZoom: [
+            {
+                type: 'inside',
+                start: 0,
+                end: 100
+            }, 
+            {
+                start: 0,
+                end: 100,
+                handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                handleSize: '80%',
+                handleStyle: {
+                    color: '#fff',
+                    shadowBlur: 3,
+                    shadowColor: 'rgba(0, 0, 0, 0.6)',
+                    shadowOffsetX: 2,
+                    shadowOffsetY: 2
+                }
+        }],
+        series: []
+    });
+
     $(document).ready(function() {
         $.ajax({
-            url: "/dashboard/overview",
+            url: "/dashboard/personOverview",
             dataType: "json",
             type: "GET",
             success: function(rsp, status) {
@@ -85,7 +118,7 @@
                 $.each(rsp['numberOfTasks'], function(index, item) {
                     a[index] = {name: '总量', value: item, xAxis: index, yAxis: item};
                 });
-                myChart.setOption({
+                personOverviewChart.setOption({
                     xAxis: [{
                             type: 'category',
                             data: rsp['chargers']
@@ -122,11 +155,38 @@
                     ]
                 })
             },
-            error: function() {
-                alert("error");
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert(textStatus);
+            }
+        });
+        $.ajax({
+            url: "/dashboard/everyDayFinished",
+            dataType: "json",
+            type: "GET",
+            success: function(rsp, status) {
+                var a = [];
+                var b = [];
+                $.each(rsp['finishedTaskItemsList'], function(index, item) {
+                    a[index] = [item['name']].concat(item['finishedTask']);
+                    b[index] = {type: 'line', smooth: true, seriesLayoutBy: 'row'};
+                });
+                var days = ['日期'].concat(rsp['day']);
+                var total = ['总量'].concat(rsp['totalFinished']);
+                var dataSource = [days].concat(a, [total]);
+                var chartSeries = b.concat([{type: 'line', smooth: true, seriesLayoutBy: 'row'}]);
+                everyDayFinishedChart.setOption({
+                    dataset: {
+                        source: dataSource
+                    },
+                    series: chartSeries
+                });
+            },
+            error: function(jqXHR, textStatus) {
+                alert(textStatus);
             }
         });
     });
+    
 </script>
 
 </html>

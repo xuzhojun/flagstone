@@ -8,9 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.FunctionService;
 import service.OperateFlowService;
+import vo.TaskFinished;
 import vo.TaskOverView;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/dashboard")
@@ -24,40 +23,26 @@ public class DashBoard {
 
     @GetMapping(value = "")
     public String dashboard() {
-        System.out.println("hello board");
         return "dashboard";
     }
 
-    @GetMapping(value = "/overview")
+    @GetMapping(value = "/personOverview")
     @ResponseBody
-    public String overview() {
+    public String personOverview() {
         TaskOverView tov = functionService.queryTaskOverView();
-        if (tov == null) {
-            tov = new TaskOverView();
-
-            List<String> chargers = tov.getChargers();
-            chargers.add("Xuzj");
-            chargers.add("Liuht");
-            chargers.add("Zhangq");
-
-            List<Integer> numberOfTasks = tov.getNumberOfTasks();
-            numberOfTasks.add(310);
-            numberOfTasks.add(450);
-            numberOfTasks.add(290);
-
-            List<Integer> numberOfUnfinished = tov.getNumberOfUnfinished();
-            numberOfUnfinished.add(190);
-            numberOfUnfinished.add(180);
-            numberOfUnfinished.add(150);
-
-            List<Integer> numberOfFinished = tov.getNumberOfFinished();
-            numberOfFinished.add(120);
-            numberOfFinished.add(270);
-            numberOfFinished.add(140);
-        }
-
-        System.out.println(JSON.toJSONString(tov));
         return JSON.toJSONString(tov);
     }
 
+    @GetMapping(value = "taskFinished")
+    @ResponseBody
+    public String taskFinished() {
+        return "";
+    }
+
+    @GetMapping(value = "everyDayFinished")
+    @ResponseBody
+    public String everyDayFinished() {
+        TaskFinished taskFinished = operateFlowService.queryFinishSt();
+        return JSON.toJSONString(taskFinished);
+    }
 }
