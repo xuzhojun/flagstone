@@ -17,10 +17,10 @@ import java.util.List;
 public class TaskController {
 
     @Autowired
-    FunctionService functionService;
+    private FunctionService functionService;
 
     @Autowired
-    TaskModifyService taskModifyService;
+    private TaskModifyService taskModifyService;
 
 
     @GetMapping("/")
