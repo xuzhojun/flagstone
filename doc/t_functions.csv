@@ -1,36 +1,35 @@
-f_id|f_func|f_class_name|f_person_in_charge|f_milestone|f_rate_of_process
-1|接入单元登录(非国密）|CreateListener|徐中军|2020-05-20|100
-2|交易员登录（非国密）|TraderLoginListener|徐中军|2020-05-20|0
-3|交易员登出|TraderLogoutListener|张勤|2020-05-20|100
-4|交易员上线消息推送|TraderLoginReportListener|徐中军|2020-05-20|100
-5|交易员下线消息推送|TraderLogoutReportListener|张勤|2020-05-20|0
-6|接入单元登出（红马甲）|QuitListener|徐中军|2020-05-20|100
-7|接入单元接受推送消息|StartReceiveListener|张勤|2020-05-20|13
-8|安全接入请求(红马甲二级系统),国密|ConnectListener|张勤|2020-05-20|100
-9|身份验证请求(红马甲二级系统)，国密|IdAuthListener|盛裕博|2020-05-20|0
-10|交易员登录（国密）|GMTraderLoginListener|叶敏|2020-05-20|100
-11|即远掉合约信息查询|InstQueryListener|刘海涛|2020-05-20|100
-12|拆借合约信息查询|LendInstQueryListener|刘海涛|2020-05-20|50
-13|期权合约信息查询|OptionInstQueryListener|刘海涛|2020-05-20|100
-14|询价期权合约参数化报价标的信息查询|OptionInstDeltaQueryListener|徐中军|2020-05-20|100
-15|询价合约状态信息查询|InstStateQueryListener|刘海涛|2020-05-20|10
-16|切换询价合约状态推送接口|SwitchInstStatusPushListener|徐中军|2020-05-20|0
-17|询价市场状态信息查询|MarketStateQueryListener|徐中军|2020-05-20|0
-18|推送市场状态信息|MarketStatusChangePushListener|徐中军|2020-05-20|0
-19|交易席位询价权限查询|SeatPrvlQueryListener|徐中军|2020-05-20|0
-20|交易席位询价权限推送接口|SeatPrvlPushListener|盛裕博|2020-05-20|0
-21|交易席位询价合约权限查询|SeatInstPrvlQueryListener|徐中军|2020-05-20|0
-22|交易席位询价合约权限推送接口|SeatInstPrvlPushListener|叶敏|2020-05-20|0
-23|询价合约可交易对手权限参数信息查询|InstPrvlQueryListener|张勤|2020-05-20|100
-24|询价合约可交易对手权限推送接口|InstPrvlPushListener|张勤|2020-05-21|100
-25|会员信息查询|MemberInfoQueryListener|徐中军|2020-05-20|0
-26|席位信息查询|SeatInfoQueryListener|盛裕博|2020-05-20|10
-27|客户信息查询|ClientInfoQueryListener|刘海涛|2020-05-20|0
-28|交易员信息查询|TraderInfoQueryListener|叶敏|2020-05-20|70
-29|交易员询价权限信息查询|TraderPrvlQueryListener|叶敏|2020-05-20|100
-30|交易员询价权限推送接口|TraderPrvlPushListener|盛裕博|2020-05-20|70
-31|经纪机构关联绑定请求和响应|AgencyRalationSaveListener|盛裕博|2020-05-20|100
-32|经纪机构关联查询|AgencyRalationQueryListener|盛裕博|2020-05-20|0
-33|节假日信息查询|HolidayQueryListener|叶敏|2020-05-20|100
-34|仓库信息查询|WarehouseQueryListener|徐中军|2020-05-20|0
-35|公开报价查询(红马甲)|PublicBidQueryListener|徐中军|2020-05-20|0
+insert into t_functions values(1, '接入单元登录(非国密）', 'CreateListener', '徐中军', '2020-05-20', 100);
+insert into t_functions values(2, '交易员登录（非国密）', 'TraderLoginListener', '徐中军', '2020-05-20', 0);
+insert into t_functions values(3, '交易员登出', 'TraderLogoutListener', '张勤', '2020-05-20', 100);
+insert into t_functions values(4, '交易员上线消息推送', 'TraderLoginReportListener', '徐中军', '2020-05-20', 100);
+insert into t_functions values(5, '交易员下线消息推送', 'TraderLogoutReportListener', '张勤', '2020-05-20', 0);
+insert into t_functions values(6, '接入单元登出（红马甲）', 'QuitListener', '徐中军', '2020-05-20', 100);
+insert into t_functions values(7, '接入单元接受推送消息', 'StartReceiveListener', '张勤', '2020-05-20', 13);
+insert into t_functions values(8, '安全接入请求(红马甲二级系统),国密', 'ConnectListener', '张勤', '2020-05-20', 100);
+insert into t_functions values(9, '身份验证请求(红马甲二级系统)，国密', 'IdAuthListener', '盛裕博', '2020-05-20', 0);
+insert into t_functions values(10, '交易员登录（国密）', 'GMTraderLoginListener', '叶敏', '2020-05-20', 100);
+insert into t_functions values(11, '即远掉合约信息查询', 'InstQueryListener', '刘海涛', '2020-05-20', 100);
+insert into t_functions values(12, '拆借合约信息查询', 'LendInstQueryListener', '刘海涛', '2020-05-20', 50);
+insert into t_functions values(13, '期权合约信息查询', 'OptionInstQueryListener', '刘海涛', '2020-05-20', 100);
+insert into t_functions values(14, '询价期权合约参数化报价标的信息查询', 'OptionInstDeltaQueryListener', '徐中军', '2020-05-20', 100);
+insert into t_functions values(15, '询价合约状态信息查询', 'InstStateQueryListener', '刘海涛', '2020-05-20', 10);
+insert into t_functions values(16, '切换询价合约状态推送接口', 'SwitchInstStatusPushListener', '徐中军', '2020-05-20', 0);
+insert into t_functions values(17, '询价市场状态信息查询', 'MarketStateQueryListener', '徐中军', '2020-05-20', 0);
+insert into t_functions values(18, '推送市场状态信息', 'MarketStatusChangePushListener', '徐中军', '2020-05-20', 0);
+insert into t_functions values(19, '交易席位询价权限查询', 'SeatPrvlQueryListener', '徐中军', '2020-05-20', 0);
+insert into t_functions values(20, '交易席位询价权限推送接口', 'SeatPrvlPushListener', '盛裕博', '2020-05-20', 0);
+insert into t_functions values(21, '交易席位询价合约权限查询', 'SeatInstPrvlQueryListener', '徐中军', '2020-05-20', 0);
+insert into t_functions values(22, '交易席位询价合约权限推送接口', 'SeatInstPrvlPushListener', '叶敏', '2020-05-20', 0);
+insert into t_functions values(23, '询价合约可交易对手权限参数信息查询', 'InstPrvlQueryListener', '张勤', '2020-05-20', 100);
+insert into t_functions values(24, '询价合约可交易对手权限推送接口', 'InstPrvlPushListener', '张勤', '2020-05-21', 100);
+insert into t_functions values(25, '会员信息查询', 'MemberInfoQueryListener', '徐中军', '2020-05-20', 0);
+insert into t_functions values(26, '席位信息查询', 'SeatInfoQueryListener', '盛裕博', '2020-05-20', 10);
+insert into t_functions values(27, '客户信息查询', 'ClientInfoQueryListener', '刘海涛', '2020-05-20', 0);
+insert into t_functions values(28, '交易员信息查询', 'TraderInfoQueryListener', '叶敏', '2020-05-20', 70);
+insert into t_functions values(29, '交易员询价权限信息查询', 'TraderPrvlQueryListener', '叶敏', '2020-05-20', 100);
+insert into t_functions values(30, '交易员询价权限推送接口', 'TraderPrvlPushListener', '盛裕博', '2020-05-20', 70);
+insert into t_functions values(31, '经纪机构关联绑定请求和响应', 'AgencyRalationSaveListener', '盛裕博', '2020-05-20', 100);
+insert into t_functions values(32, '经纪机构关联查询', 'AgencyRalationQueryListener', '盛裕博', '2020-05-20', 0);
+insert into t_functions values(33, '节假日信息查询', 'HolidayQueryListener', '叶敏', '2020-05-20', 100);
+insert into t_functions values(34, '仓库信息查询', 'WarehouseQueryListener', '徐中军', '2020-05-20', 0);
+insert into t_functions values(35, '公开报价查询(红马甲)', 'PublicBidQueryListener', '徐中军', '2020-05-20', 0);
